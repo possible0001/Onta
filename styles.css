@@ -859,7 +859,7 @@ body.dark-theme .footer .telegram-link {
 .floating-telegram {
   position: fixed;
   right: 20px;
-  bottom: 20px;
+  bottom: 90px;
   z-index: 30;
   width: 52px;
   height: 52px;
