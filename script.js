@@ -99,21 +99,14 @@ form.addEventListener("submit", (event) => {
     `Message: ${userMessage}`,
   ].join("\n");
 
-  const email = "ONTAINTERNATIONALLTD@GMAIL.COM";
+  const email = "ontainternationalltd@gmail.com";
   const subject = encodeURIComponent(`New message from ${name || "website visitor"}`);
   const body = encodeURIComponent(message);
   const mailtoUrl = `mailto:${email}?subject=${subject}&body=${body}`;
 
   formStatus.textContent = "Opening your email app with the message ready to send.";
 
-  const mailtoLink = document.createElement("a");
-  mailtoLink.href = mailtoUrl;
-  mailtoLink.target = "_blank";
-  mailtoLink.rel = "noopener noreferrer";
-  mailtoLink.style.display = "none";
-  document.body.appendChild(mailtoLink);
-  mailtoLink.click();
-  document.body.removeChild(mailtoLink);
+  window.location.href = mailtoUrl;
 
   form.reset();
 });
