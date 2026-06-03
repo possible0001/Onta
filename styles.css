@@ -367,6 +367,11 @@ body.dark-theme .hero-badges span {
   width: 100%;
 }
 
+.manual-mail-link {
+  display: none;
+  margin-top: 16px;
+}
+
 .hero-panel {
   position: relative;
   min-height: 540px;

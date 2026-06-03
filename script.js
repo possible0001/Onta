@@ -54,6 +54,8 @@ document.querySelectorAll(".reveal").forEach((item) => {
   revealObserver.observe(item);
 });
 
+const manualMailLink = document.querySelector("#manualMailLink");
+
 const countObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -105,19 +107,39 @@ form.addEventListener("submit", (event) => {
   const mailtoUrl = `mailto:${email}?subject=${subject}&body=${body}`;
 
   formStatus.textContent = "Opening your email app with the message ready to send.";
+  if (manualMailLink) {
+    manualMailLink.style.display = "none";
+    manualMailLink.href = "#";
+  }
 
-  window.location.href = mailtoUrl;
+  try {
+    window.location.href = mailtoUrl;
+  } catch (e) {
+    // continue to fallback behavior
+  }
 
   window.setTimeout(() => {
+    try {
+      window.open(mailtoUrl, "_self");
+    } catch (e) {}
+
     const mailtoLink = document.createElement("a");
     mailtoLink.href = mailtoUrl;
-    mailtoLink.target = "_blank";
+    mailtoLink.target = "_self";
     mailtoLink.rel = "noopener noreferrer";
     mailtoLink.style.display = "none";
     document.body.appendChild(mailtoLink);
     mailtoLink.click();
     document.body.removeChild(mailtoLink);
   }, 150);
+
+  window.setTimeout(() => {
+    formStatus.innerHTML = `If your phone didn't open an email app, <a href="${mailtoUrl}">tap here</a> to open email manually.`;
+    if (manualMailLink) {
+      manualMailLink.href = mailtoUrl;
+      manualMailLink.style.display = "block";
+    }
+  }, 400);
 
   form.reset();
 });
