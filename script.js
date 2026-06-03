@@ -112,26 +112,32 @@ form.addEventListener("submit", (event) => {
     manualMailLink.href = "#";
   }
 
+  const clickAnchor = document.createElement("a");
+  clickAnchor.href = mailtoUrl;
+  clickAnchor.target = "_self";
+  clickAnchor.rel = "noopener noreferrer";
+  clickAnchor.style.display = "none";
+  document.body.appendChild(clickAnchor);
+
+  try {
+    clickAnchor.click();
+  } catch (e) {
+    // continue to fallback behavior
+  }
+
   try {
     window.location.href = mailtoUrl;
   } catch (e) {
     // continue to fallback behavior
   }
 
-  window.setTimeout(() => {
-    try {
-      window.open(mailtoUrl, "_self");
-    } catch (e) {}
+  try {
+    window.open(mailtoUrl, "_self");
+  } catch (e) {
+    // continue to fallback behavior
+  }
 
-    const mailtoLink = document.createElement("a");
-    mailtoLink.href = mailtoUrl;
-    mailtoLink.target = "_self";
-    mailtoLink.rel = "noopener noreferrer";
-    mailtoLink.style.display = "none";
-    document.body.appendChild(mailtoLink);
-    mailtoLink.click();
-    document.body.removeChild(mailtoLink);
-  }, 150);
+  document.body.removeChild(clickAnchor);
 
   window.setTimeout(() => {
     formStatus.innerHTML = `If your phone didn't open an email app, <a href="${mailtoUrl}">tap here</a> to open email manually.`;
@@ -139,7 +145,7 @@ form.addEventListener("submit", (event) => {
       manualMailLink.href = mailtoUrl;
       manualMailLink.style.display = "block";
     }
-  }, 400);
+  }, 500);
 
   form.reset();
 });
