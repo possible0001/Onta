@@ -1,8 +1,6 @@
 const menuToggle = document.querySelector(".menu-toggle");
 const navLinks = document.querySelector(".nav-links");
 const year = document.querySelector("#year");
-const form = document.querySelector("#contactForm");
-const formStatus = document.querySelector(".form-status");
 const themeToggle = document.querySelector(".theme-toggle");
 
 year.textContent = new Date().getFullYear();
@@ -54,8 +52,6 @@ document.querySelectorAll(".reveal").forEach((item) => {
   revealObserver.observe(item);
 });
 
-const manualMailLink = document.querySelector("#manualMailLink");
-
 const countObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -85,67 +81,3 @@ document.querySelectorAll("[data-count]").forEach((counter) => {
   countObserver.observe(counter);
 });
 
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const formData = new FormData(form);
-  const name = String(formData.get("name") || "");
-  const contact = String(formData.get("contact") || "");
-  const service = String(formData.get("service") || "");
-  const userMessage = String(formData.get("message") || "");
-  const message = [
-    "Hello Onta International Limited,",
-    "",
-    `Name: ${name}`,
-    `Phone or email: ${contact}`,
-    `Service: ${service}`,
-    `Message: ${userMessage}`,
-  ].join("\n");
-
-  const email = "ontainternationalltd@gmail.com";
-  const subject = encodeURIComponent(`New message from ${name || "website visitor"}`);
-  const body = encodeURIComponent(message);
-  const mailtoUrl = `mailto:${email}?subject=${subject}&body=${body}`;
-
-  formStatus.textContent = "Opening your email app with the message ready to send.";
-  if (manualMailLink) {
-    manualMailLink.style.display = "none";
-    manualMailLink.href = "#";
-  }
-
-  const clickAnchor = document.createElement("a");
-  clickAnchor.href = mailtoUrl;
-  clickAnchor.target = "_self";
-  clickAnchor.rel = "noopener noreferrer";
-  clickAnchor.style.display = "none";
-  document.body.appendChild(clickAnchor);
-
-  try {
-    clickAnchor.click();
-  } catch (e) {
-    // continue to fallback behavior
-  }
-
-  try {
-    window.location.href = mailtoUrl;
-  } catch (e) {
-    // continue to fallback behavior
-  }
-
-  try {
-    window.open(mailtoUrl, "_self");
-  } catch (e) {
-    // continue to fallback behavior
-  }
-
-  document.body.removeChild(clickAnchor);
-
-  window.setTimeout(() => {
-    formStatus.innerHTML = `If your phone didn't open an email app, <a href="${mailtoUrl}">tap here</a> to open email manually.`;
-    if (manualMailLink) {
-      manualMailLink.href = mailtoUrl;
-      manualMailLink.style.display = "block";
-    }
-  }, 500);
-
-  form.reset();
-});
