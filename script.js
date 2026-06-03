@@ -79,9 +79,12 @@ const countObserver = new IntersectionObserver(
   { threshold: 0.8 }
 );
 
-const emailDraftLink = document.querySelector("#emailDraftLink");
+document.querySelectorAll("[data-count]").forEach((counter) => {
+  countObserver.observe(counter);
+});
 
-function updateMailtoUrl() {
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
   const formData = new FormData(form);
   const name = String(formData.get("name") || "");
   const contact = String(formData.get("contact") || "");
@@ -99,17 +102,22 @@ function updateMailtoUrl() {
   const email = "ontainternationalltd@gmail.com";
   const subject = encodeURIComponent(`New message from ${name || "website visitor"}`);
   const body = encodeURIComponent(message);
-  emailDraftLink.href = `mailto:${email}?subject=${subject}&body=${body}`;
-}
+  const mailtoUrl = `mailto:${email}?subject=${subject}&body=${body}`;
 
-document.querySelectorAll("#contactForm input, #contactForm select, #contactForm textarea").forEach((field) => {
-  field.addEventListener("input", updateMailtoUrl);
-});
+  formStatus.textContent = "Opening your email app with the message ready to send.";
 
-updateMailtoUrl();
+  window.location.href = mailtoUrl;
 
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  updateMailtoUrl();
-  emailDraftLink.click();
+  window.setTimeout(() => {
+    const mailtoLink = document.createElement("a");
+    mailtoLink.href = mailtoUrl;
+    mailtoLink.target = "_blank";
+    mailtoLink.rel = "noopener noreferrer";
+    mailtoLink.style.display = "none";
+    document.body.appendChild(mailtoLink);
+    mailtoLink.click();
+    document.body.removeChild(mailtoLink);
+  }, 150);
+
+  form.reset();
 });
