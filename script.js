@@ -105,7 +105,15 @@ form.addEventListener("submit", (event) => {
   const mailtoUrl = `mailto:${email}?subject=${subject}&body=${body}`;
 
   formStatus.textContent = "Opening your email app with the message ready to send.";
-  window.location.href = mailtoUrl;
+
+  const mailtoLink = document.createElement("a");
+  mailtoLink.href = mailtoUrl;
+  mailtoLink.target = "_blank";
+  mailtoLink.rel = "noopener noreferrer";
+  mailtoLink.style.display = "none";
+  document.body.appendChild(mailtoLink);
+  mailtoLink.click();
+  document.body.removeChild(mailtoLink);
 
   form.reset();
 });

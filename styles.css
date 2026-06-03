@@ -75,6 +75,7 @@ a {
   z-index: 20;
   background: var(--header-bg);
   border-bottom: 1px solid rgba(220, 230, 238, 0.82);
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
 }
 
@@ -738,6 +739,10 @@ body.dark-theme .hero-badges span {
   border-radius: 8px;
 }
 
+body.dark-theme .contact-note {
+  background: rgba(255, 255, 255, 0.05);
+}
+
 .contact-note strong,
 .contact-note span,
 .contact-note a {
@@ -749,9 +754,19 @@ body.dark-theme .hero-badges span {
   color: var(--muted);
 }
 
-.contact-note a {
+.contact-note a,
+.contact-link,
+.telegram-link {
   margin-top: 4px;
   font-weight: 800;
+}
+
+.contact-note a {
+  color: var(--blue-dark);
+}
+
+body.dark-theme .contact-note a {
+  color: #c5e8ff;
 }
 
 .whatsapp-link {
@@ -805,14 +820,17 @@ body.dark-theme .footer .whatsapp-link {
   fill: currentColor;
 }
 
-/* Telegram link styles */
+/* Contact link styles */
+.contact-link,
 .telegram-link {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #0088cc;
+  color: var(--blue-dark);
+  font-weight: 800;
 }
 
+.contact-link svg,
 .telegram-link svg {
   width: 18px;
   height: 18px;
@@ -820,11 +838,13 @@ body.dark-theme .footer .whatsapp-link {
   fill: currentColor;
 }
 
+.footer .contact-link,
 .footer .telegram-link {
-  color: #0088cc;
-  font-weight: 800;
+  color: var(--blue-dark);
 }
 
+body.dark-theme .contact-link,
+body.dark-theme .footer .contact-link,
 body.dark-theme .telegram-link,
 body.dark-theme .footer .telegram-link {
   color: #5fc1ff;
@@ -975,7 +995,6 @@ body.dark-theme .footer .telegram-link {
   }
 
   .hero {
-    min-height: auto;
     gap: 32px;
     padding-top: 46px;
   }
@@ -1078,7 +1097,6 @@ body.dark-theme .footer .telegram-link {
   .service-card,
   .service-card.wide {
     grid-column: span 1;
-    min-height: auto;
   }
 
   .feature-strip {
