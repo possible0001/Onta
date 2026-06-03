@@ -108,5 +108,16 @@ form.addEventListener("submit", (event) => {
 
   window.location.href = mailtoUrl;
 
+  window.setTimeout(() => {
+    const mailtoLink = document.createElement("a");
+    mailtoLink.href = mailtoUrl;
+    mailtoLink.target = "_blank";
+    mailtoLink.rel = "noopener noreferrer";
+    mailtoLink.style.display = "none";
+    document.body.appendChild(mailtoLink);
+    mailtoLink.click();
+    document.body.removeChild(mailtoLink);
+  }, 150);
+
   form.reset();
 });
